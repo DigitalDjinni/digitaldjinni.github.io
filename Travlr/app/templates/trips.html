@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Travel{% endblock %}
+{% block content %}
+
+<!-- Add Trip Button and Search Bar Container -->
+{% if is_logged_in %}
+<div class="container-fluid mt-3">
+    <div class="row align-items-center">
+        <!-- Add Trip Button -->
+        {% if current_user.is_authenticated and current_user.is_admin %}
+        <div class="col-md-auto">
+            <a href="{{ url_for('trip_blueprint.add_trip') }}" class="btn btn-success">+ Add Trip</a>
+        </div>
+        {% endif %}
+
+        <!-- Search Bar and Flask-WTF Validation -->
+        <div class="col">
+            <form method="POST" action="{{ url_for('trip_blueprint.search_trips') }}">
+                {{ form.hidden_tag() }} 
+
+                <div class="row g-2">
+                    <div class="col">
+                        {{ form.query(class="form-control", placeholder="Search destination") }}
+                        {% if form.query.errors %}
+                            <small class="text-danger">{{ form.query.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="col">
+                        {{ form.min_price(class="form-control", placeholder="Min Price") }}
+                        {% if form.min_price.errors %}
+                            <small class="text-danger">{{ form.min_price.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="col">
+                        {{ form.max_price(class="form-control", placeholder="Max Price") }}
+                        {% if form.max_price.errors %}
+                            <small class="text-danger">{{ form.max_price.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="col">
+                        {{ form.start_date(class="form-control") }}
+                        {% if form.start_date.errors %}
+                            <small class="text-danger">{{ form.start_date.errors[0] }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-auto">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Trip Card Area -->
+<div class="container mt-4">
+    <div class="row">
+        {% for trip in trips %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">  
+            <div class="card shadow-lg d-flex flex-column h-100">
+                <img src="{{ url_for('static', filename='images/' + trip.image) }}" class="card-img-top" alt="Trip Image">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ trip.name }}</h5>
+                    
+                    <div class="flex-grow-1 overflow-auto" style="max-height: 100px;">
+                        <p class="card-text">{{ trip.description }}</p>
+                    </div>
+
+                    <p class="card-text"><small class="text-muted">Price: ${{ "%.2f"|format(trip.per_person) }}</small></p>
+
+                    <!-- Code to keep View Details, Edit Trip, and Delete buttons at the bottom -->
+                    <div class="mt-auto">
+                        <a href="{{ url_for('trip_blueprint.view_trip', trip_id=trip.id) }}" class="btn btn-primary">View Details</a>
+
+                        {% if current_user.is_authenticated and current_user.is_admin %}
+                        <a href="{{ url_for('trip_blueprint.edit_trip', trip_id=trip.id) }}" class="btn btn-warning mt-2">Edit</a>
+                        <form action="{{ url_for('trip_blueprint.delete_trip', trip_id=trip.id) }}" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Are you sure you want to delete this trip?')">Delete</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Pagination Area -->
+{% if pagination %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if pagination.has_prev %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('trip_blueprint.list_trips', page=pagination.prev_num) }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ pagination.page }} of {{ pagination.pages }}</span></li>
+        {% if pagination.has_next %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('trip_blueprint.list_trips', page=pagination.next_num) }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
