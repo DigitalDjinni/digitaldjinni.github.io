@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<!-- This is not my code. Reused from FullStack Application -->
+<!-- Modified it for Jinja -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Meals - Travlr Getaways Website Template</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles2.css') }}" type="text/css">
+</head>
+<body>
+	<div id="background">
+		<div id="page">
+			{% include 'partials/header.html' %}
+			{% block content %}
+			<div id="contents">
+				<div class="box">
+					<div>
+						<div class="body">
+							<h1>Meals</h1>
+							<ul id="foods">
+								<li>
+									<h2><a href="{{ url_for('trip_blueprint.meals') }}">SeaFood Special</a></h2>
+									<div class="infos">
+										<a href="{{ url_for('trip_blueprint.meals') }}">
+											<img src="{{ url_for('static', filename='images/seafoods.jpg') }}" alt="Img" height="169" width="780">
+											<span class="cover"></span>
+										</a>
+										<p>
+											<span>Fried Salmon Special</span> I'm a product overview. Here you can write more information about your product. Buyers like to know ...
+										</p>
+									</div>
+								</li>
+								<li>
+									<h2><a href="{{ url_for('trip_blueprint.meals') }}">Sumptuous Desserts</a></h2>
+									<div class="infos">
+										<a href="{{ url_for('trip_blueprint.meals') }}">
+											<img src="{{ url_for('static', filename='images/desserts.jpg') }}" alt="Img" height="169" width="780">
+											<span class="cover"></span>
+										</a>
+										<p>
+											<span>Choco Ice Cream Sandwich</span> I'm a product overview. Here you can write more information about your product. Buyers like to know ...
+										</p>
+									</div>
+								</li>
+								<li>
+									<h2><a href="{{ url_for('trip_blueprint.meals') }}">Buffet</a></h2>
+									<div class="infos">
+										<a href="{{ url_for('trip_blueprint.meals') }}">
+											<img src="{{ url_for('static', filename='images/buffet.jpg') }}" alt="Img" height="169" width="780">
+											<span class="cover"></span>
+										</a>
+										<p>
+											<span>Mixed Buffet</span> I'm a product overview. Here you can write more information about your product. Buyers like to know ...
+										</p>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endblock %}
+		</div>
+		{% include 'partials/footer.html' %}
+	</div>
+</body>
+</html>

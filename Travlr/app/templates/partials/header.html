@@ -1,0 +1,48 @@
+<!-- This is not my code. Reused from FullStack Application -->
+<!-- Modified it for Jinja -->
+<div id="page">
+    <div id="header">
+        <div id="logo">
+            <a href="{{ url_for('trip_blueprint.home') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="LOGO" height="100" width="200">
+            </a>
+        </div>
+        <div id="navigation">
+            <ul>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.home') }}">Home</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.list_trips') }}">Travel</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.rooms') }}">Rooms</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.meals') }}">Meals</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.news') }}">News</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.about') }}">About</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('trip_blueprint.contact') }}">Contact</a>
+                </li>
+                <li>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth_blueprint.logout') }}">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('auth_blueprint.login') }}">Login</a>
+                    {% endif %}
+                </li>
+                {% if not current_user.is_authenticated %}
+                <li>
+                    <a href="{{ url_for('auth_blueprint.register') }}">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

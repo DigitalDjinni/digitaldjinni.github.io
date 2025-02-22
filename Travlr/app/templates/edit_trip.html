@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="edit-trip-box">
+        <h2>Edit Trip</h2>
+
+        <!-- Flash Messages Area -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="container mt-3">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show flash-message" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+         <!-- Edit Form -->
+        <form method="POST" action="{{ url_for('trip_blueprint.edit_trip', trip_id=trip.id) }}">
+            {{ form.hidden_tag() }}
+
+            <!-- Trip Name -->
+            <div class="input-group">
+                {{ form.name(class="form-control", placeholder="Trip Name") }}
+            </div>
+            {% if form.name.errors %}
+                <p class="text-danger">{{ form.name.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Trip Code -->
+            <div class="input-group">
+                {{ form.code(class="form-control", placeholder="Trip Code") }}
+            </div>
+            {% if form.code.errors %}
+                <p class="text-danger">{{ form.code.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Length -->
+            <div class="input-group">
+                {{ form.length(class="form-control", placeholder="Length (e.g., 7 days)") }}
+            </div>
+            {% if form.length.errors %}
+                <p class="text-danger">{{ form.length.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Start Date -->
+            <div class="input-group">
+                {{ form.start(class="form-control", type="date") }}
+            </div>
+            {% if form.start.errors %}
+                <p class="text-danger">{{ form.start.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Resort -->
+            <div class="input-group">
+                {{ form.resort(class="form-control", placeholder="Resort Name") }}
+            </div>
+            {% if form.resort.errors %}
+                <p class="text-danger">{{ form.resort.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Price Per Person -->
+            <div class="input-group">
+                {{ form.per_person(class="form-control", placeholder="Price Per Person") }}
+            </div>
+            {% if form.per_person.errors %}
+                <p class="text-danger">{{ form.per_person.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Image -->
+            <div class="input-group">
+                {{ form.image(class="form-control", placeholder="Image Filename") }}
+            </div>
+            {% if form.image.errors %}
+                <p class="text-danger">{{ form.image.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Description -->
+            <div class="input-group">
+                {{ form.description(class="form-control", placeholder="Description", rows="4") }}
+            </div>
+            {% if form.description.errors %}
+                <p class="text-danger">{{ form.description.errors[0] }}</p>
+            {% endif %}
+
+            <!-- Update Button -->
+            {{ form.submit(class="btn btn-primary mt-3", value="Update Trip") }}
+
+        </form>
+    </div>
+</div>
+{% endblock %}
